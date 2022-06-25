@@ -1,0 +1,38 @@
+process route_creator {
+    run python3 /opt/route_creator/route_creator.py;
+    encoder json;
+}
+
+neighbor {{peer_v4_addr}} {
+    router-id {{router_id}};
+    local-address {{local_v4_addr}};
+    local-as {{local_asn}};
+    peer-as {{peer_asn}};
+    hold-time 30;
+    group-updates true;
+
+    family {
+        ipv4 unicast;
+    }
+
+    api {
+        processes [ route_creator ];
+    }
+}
+
+neighbor {{peer_v6_addr}} {
+    router-id {{router_id}};
+    local-address {{local_v4_addr}};
+    local-as {{local_asn}};
+    peer-as {{peer_asn}};
+    hold-time 30;
+    group-updates false;
+
+    family {
+        ipv6 unicast;
+    }
+
+    api {
+        processes [ route_creator ];
+    }
+}

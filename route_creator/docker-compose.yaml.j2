@@ -1,0 +1,28 @@
+version: "3.7"
+services:
+  route_creator:
+    image: "route_creator:1.0.0"
+    volumes:
+      - "/opt/route_creator/volume/opt/route_creator:/opt/route_creator"
+    networks:
+      net_01:
+        ipv4_address: "{{v4_addr}}"
+      net_02:
+        ipv4_address: "{{v4_addr}}"
+    restart: "always"
+    cap_add:
+      - "NET_ADMIN"
+    environment:
+      - "exabgp.log.level=WARNING"
+      - "exabgp.api.cli=false"
+      - "exabgp.daemon.user=root"
+      - "exabgp.api.ack=false"
+    command:
+      - "exabgp.conf"
+networks:
+  net_01:
+    external: true
+    name: "{{network_name}}"
+  net_02:
+    external: true
+    name: "{{network_name}}"
