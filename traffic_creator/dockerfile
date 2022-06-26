@@ -1,0 +1,9 @@
+FROM ubuntu:20.04 AS s1
+MAINTAINER tcneko <tcneko@outlook.com>
+
+WORKDIR /root
+RUN export DEBIAN_FRONTEND=noninteractive \
+  && apt-get update \
+  && apt-get install -y --no-install-recommends ca-certificates less bc iputils-ping iproute2 mtr subnetcalc \
+  && apt-get install -y --no-install-recommends iperf iperf3 hping3 fping nmap ncat vim \
+  && apt-get clean
