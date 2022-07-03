@@ -1,5 +1,10 @@
-process route_creator {
-    run python3 /opt/route_creator/route_creator.py;
+process route_creator_v4 {
+    run python3 /opt/route_creator/route_creator.py --v4-route-size 1000000 --advertise-v4;
+    encoder json;
+}
+
+process route_creator_v6 {
+    run python3 /opt/route_creator/route_creator.py --v6-route-size 200000 --advertise-v6;
     encoder json;
 }
 
@@ -16,23 +21,23 @@ neighbor {{peer_v4_addr}} {
     }
 
     api {
-        processes [ route_creator ];
+        processes [ route_creator_v4 ];
     }
 }
 
 neighbor {{peer_v6_addr}} {
     router-id {{router_id}};
-    local-address {{local_v4_addr}};
+    local-address {{local_v6_addr}};
     local-as {{local_asn}};
     peer-as {{peer_asn}};
     hold-time 30;
-    group-updates false;
+    group-updates true;
 
     family {
         ipv6 unicast;
     }
 
     api {
-        processes [ route_creator ];
+        processes [ route_creator_v6 ];
     }
 }

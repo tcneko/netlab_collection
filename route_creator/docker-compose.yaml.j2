@@ -7,8 +7,10 @@ services:
     networks:
       net_01:
         ipv4_address: "{{v4_addr}}"
+        ipv6_address: "{{v6_addr}}"
       net_02:
         ipv4_address: "{{v4_addr}}"
+        ipv6_address: "{{v6_addr}}"
     restart: "always"
     cap_add:
       - "NET_ADMIN"
